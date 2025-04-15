@@ -5,7 +5,7 @@ create .gitignore
 
 create go.mod
 ```sh
-go mod init example.com/m' to initialize a v0 or v1 module
+go mod init github.com/omikuu/sr' to initialize a v0 or v1 module
 ```
 
 download module

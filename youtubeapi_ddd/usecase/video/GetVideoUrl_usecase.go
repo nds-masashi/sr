@@ -1,6 +1,6 @@
 package video_usecase
 
-import "example.com/m/domain/video"
+import "github.com/omikuu/sr/domain/video"
 
 type FetchVideosUseCase struct {
 	Repo video.Repository

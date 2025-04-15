@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"example.com/m/domain/video"
+	"github.com/omikuu/sr/domain/video"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -37,7 +37,7 @@ func (c *YouTubeClient) GetVideoUrl(title string, limit int) ([]video.Video, err
 	var videos []video.Video
 	for _, item := range res.Items {
 		videos = append(videos, video.Video{
-			URL:   fmt.Sprintf("https://www.youtube.com/watch?v=%s", item.Id.VideoId),
+			URL: fmt.Sprintf("https://www.youtube.com/watch?v=%s", item.Id.VideoId),
 		})
 	}
 	return videos, nil

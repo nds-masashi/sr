@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"example.com/m/infrastructure/reoisitory_imple"
-	"example.com/m/usecase/video"
 	"github.com/joho/godotenv"
+	"github.com/omikuu/sr/infrastructure/reoisitory_imple"
+	video_usecase "github.com/omikuu/sr/usecase/video"
 )
 
 func main() {
