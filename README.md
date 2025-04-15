@@ -4,7 +4,9 @@
 create .gitignore
 
 create go.mod
-`go mod init example.com/m' to initialize a v0 or v1 module`
+```sh
+go mod init example.com/m' to initialize a v0 or v1 module
+```
 
 download module
 ```sh
@@ -15,7 +17,9 @@ go get github.com/joho/godotenv
 add main method
 
 goplsがないとコード補完や、参照機能が動作しない
-`go install golang.org/x/tools/gopls@latest`
+```sh
+go install golang.org/x/tools/gopls@latest
+```
 
 # reference
 
@@ -32,6 +36,8 @@ https://qiita.com/tokuchi765/items/31c3766c3b7963dc6e64
 
 ## YouTube API Reference
 https://qiita.com/tokuchi765/items/31c3766c3b7963dc6e64#:~:text=YouTube%20API%20Reference
+
+# other
 
 `curl 'https://www.googleapis.com/youtube/v3/search?key=APIキーを入れる&type=video&part=snippet&q=dog'`
 
