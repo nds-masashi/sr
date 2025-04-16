@@ -1,5 +1,5 @@
 
-# how to create
+# 流れ
 
 create .gitignore
 
@@ -36,6 +36,8 @@ https://qiita.com/tokuchi765/items/31c3766c3b7963dc6e64
 
 ## YouTube API Reference
 https://qiita.com/tokuchi765/items/31c3766c3b7963dc6e64#:~:text=YouTube%20API%20Reference
+
+https://developers.google.com/youtube/v3/docs/videos/list?hl=ja
 
 # other
 
