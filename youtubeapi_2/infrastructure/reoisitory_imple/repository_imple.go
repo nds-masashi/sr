@@ -23,9 +23,9 @@ func NewYouTubeClient(apiKey string) (*YouTubeClient, error) {
 	return &YouTubeClient{service: srv}, nil
 }
 
-func (c *YouTubeClient) GetVideoUrl(title string, limit int) ([]video_info.VideoInfo, error) {
-	// 3日前のISO形式
-	publishedAfter := time.Now().AddDate(0, 0, -3).Format(time.RFC3339)
+func (c *YouTubeClient) GetVideoUrl(title string, limit int, afterDays int) ([]video_info.VideoInfo, error) {
+	// ISO形式
+	publishedAfter := time.Now().AddDate(0, 0, afterDays).Format(time.RFC3339)
 
 	call := c.service.Search.List([]string{"id", "snippet"}).
 		Q(title).
@@ -33,7 +33,7 @@ func (c *YouTubeClient) GetVideoUrl(title string, limit int) ([]video_info.Video
 		RegionCode("JP").
 		Order("date").
 		PublishedAfter(publishedAfter).
-		MaxResults(10) // 一旦50件取得
+		MaxResults(int64(limit))
 
 	res, err := call.Do()
 	if err != nil {

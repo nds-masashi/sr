@@ -5,5 +5,5 @@ import (
 )
 
 type Repository interface {
-	GetVideoUrl(title string, limit int) ([]video_info.VideoInfo, error)
+	GetVideoUrl(title string, limit int, afterDays int) ([]video_info.VideoInfo, error)
 }

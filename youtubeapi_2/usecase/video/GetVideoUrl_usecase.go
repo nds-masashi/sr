@@ -9,6 +9,6 @@ type FetchVideosUseCase struct {
 	Repo video.Repository
 }
 
-func (u *FetchVideosUseCase) Execute(title string, limit int) ([]video_info.VideoInfo, error) {
-	return u.Repo.GetVideoUrl(title, limit)
+func (u *FetchVideosUseCase) Execute(title string, limit int, afterDays int) ([]video_info.VideoInfo, error) {
+	return u.Repo.GetVideoUrl(title, limit, afterDays)
 }

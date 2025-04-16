@@ -4,18 +4,17 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv" // strconvを追加
+	"sort"
+	"strconv"
 
 	"github.com/joho/godotenv"
-	"github.com/omikuu/sr/domain/output"
+	"github.com/omikuu/sr/domain/video_info"
 	"github.com/omikuu/sr/infrastructure/reoisitory_imple"
 	video_usecase "github.com/omikuu/sr/usecase/video"
 )
 
-// 日本人による直近3日以内のApex Legendsに関しての動画を
-// 人気top10を出力するスクリプトを作成してください。
 func main() {
-	apiKey, title, limit := loadEnvVariables()
+	apiKey, title, limit, afterDays := loadEnvVariables()
 	yt, err := reoisitory_imple.NewYouTubeClient(apiKey)
 	if err != nil {
 		log.Fatalf("YouTube client error: %v", err)
@@ -23,18 +22,18 @@ func main() {
 
 	usecase := video_usecase.FetchVideosUseCase{Repo: yt}
 
-	videos, err := usecase.Execute(title, limit)
+	videos, err := usecase.Execute(title, limit, afterDays)
 	if err != nil {
 		log.Fatalf("Failed to fetch videos: %v", err)
 	}
 
-	fmt.Println(videos)
 	// 再生回数順にソート
-	// トップ10出力
+	videos = sortByViewCount(videos)
 
+	printVideos(videos)
 }
 
-func loadEnvVariables() (string, string, int) {
+func loadEnvVariables() (string, string, int, int) {
 	_ = godotenv.Load()
 	apiKey := os.Getenv("YOUTUBE_API_KEY")
 	if apiKey == "" {
@@ -55,12 +54,27 @@ func loadEnvVariables() (string, string, int) {
 		log.Fatalf("Invalid YOUTUBE_SEARCH_LIMIT: %v", err)
 	}
 
-	return apiKey, title, limit
+	afterDaysStr := os.Getenv("YOUTUBE_SEARCH_AFTER_DAYS")
+	if afterDaysStr == "" {
+		log.Fatal("YOUTUBE_SEARCH_AFTER_DAYS not found")
+	}
+	afterDays, err := strconv.Atoi(afterDaysStr)
+	if err != nil {
+		log.Fatalf("Invalid YOUTUBE_SEARCH_AFTER_DAYS: %v", err)
+	}
+	return apiKey, title, limit, afterDays
 }
 
-func printVideos(videos []output.Video) {
+func sortByViewCount(videos []video_info.VideoInfo) []video_info.VideoInfo {
+	sort.Slice(videos, func(i, j int) bool {
+		return videos[i].ViewCount > videos[j].ViewCount
+	})
+	return videos
+}
+
+func printVideos(videos []video_info.VideoInfo) {
 	fmt.Println("🎬 最新動画リスト:")
 	for _, v := range videos {
-		fmt.Printf("- %s\n", v.URL)
+		fmt.Println(v.URL)
 	}
 }
