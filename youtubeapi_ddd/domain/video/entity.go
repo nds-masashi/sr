@@ -1,5 +1,6 @@
 package video
 
 type Video struct {
-    URL   string
+	URL   string
+	Title string
 }

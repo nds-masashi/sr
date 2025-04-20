@@ -37,7 +37,8 @@ func (c *YouTubeClient) GetVideoUrl(title string, limit int) ([]video.Video, err
 	var videos []video.Video
 	for _, item := range res.Items {
 		videos = append(videos, video.Video{
-			URL: fmt.Sprintf("https://www.youtube.com/watch?v=%s", item.Id.VideoId),
+			URL:   fmt.Sprintf("https://www.youtube.com/watch?v=%s", item.Id.VideoId),
+			Title: item.Snippet.Title,
 		})
 	}
 	return videos, nil

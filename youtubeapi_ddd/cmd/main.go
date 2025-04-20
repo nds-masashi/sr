@@ -56,6 +56,6 @@ func loadEnvVariables() (string, string, int) {
 func printVideos(videos []video.Video) {
 	fmt.Println("🎬 最新動画リスト:")
 	for _, v := range videos {
-		fmt.Printf("- %s\n", v.URL)
+		fmt.Printf("- [%s] %s\n", v.URL, v.Title)
 	}
 }
