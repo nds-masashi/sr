@@ -7,19 +7,19 @@ import (
 	"strconv" // strconvを追加
 
 	"github.com/joho/godotenv"
-	"github.com/omikuu/sr/domain/video"
-	"github.com/omikuu/sr/infrastructure/reoisitory_imple"
-	video_usecase "github.com/omikuu/sr/usecase/video"
+	"github.com/nds-masashi/sr/domain/model/video"
+	"github.com/nds-masashi/sr/infrastructure/yotube_resolver_impl"
+	video_usecase "github.com/nds-masashi/sr/usecase/get_video_usecase"
 )
 
 func main() {
 	apiKey, title, limit := loadEnvVariables()
-	yt, err := reoisitory_imple.NewYouTubeClient(apiKey)
+	yt, err := yotube_resolver_impl.New(apiKey)
 	if err != nil {
 		log.Fatalf("YouTube client error: %v", err)
 	}
 
-	usecase := video_usecase.FetchVideosUseCase{Repo: yt}
+	usecase := video_usecase.Usecase{Service: yt}
 
 	videos, err := usecase.Execute(title, limit)
 	if err != nil {
@@ -38,12 +38,16 @@ func loadEnvVariables() (string, string, int) {
 
 	title := os.Getenv("YOUTUBE_SEARCH_TITLE")
 	if title == "" {
-		log.Fatal("YOUTUBE_SERCH_TITLE not found")
+		fmt.Println("検索タイトルを入力してください:")
+		fmt.Scan(&title)
+		if title == "" {
+			log.Fatal("YOUTUBE_SERCH_TITLE not found")
+		}
 	}
 
 	limitStr := os.Getenv("YOUTUBE_SEARCH_LIMIT")
 	if limitStr == "" {
-		log.Fatal("YOUTUBE_SEARCH_LIMIT not found")
+		limitStr = "10"
 	}
 	limit, err := strconv.Atoi(limitStr)
 	if err != nil {
@@ -53,9 +57,9 @@ func loadEnvVariables() (string, string, int) {
 	return apiKey, title, limit
 }
 
-func printVideos(videos []video.Video) {
+func printVideos(videos []video.Model) {
 	fmt.Println("🎬 最新動画リスト:")
 	for _, v := range videos {
-		fmt.Printf("- %s\n", v.URL)
+		fmt.Printf("- %s [%s]\n", v.GetURL(), v.GetTitle())
 	}
 }

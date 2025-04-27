@@ -43,3 +43,19 @@ https://developers.google.com/youtube/v3/docs/videos/list?hl=ja
 
 `curl 'https://www.googleapis.com/youtube/v3/search?key=APIキーを入れる&type=video&part=snippet&q=dog'`
 
+# VS Code launch.json
+
+```json
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/sr/youtubeapi_ddd/cmd/main.go",
+            "envFile": "${workspaceFolder}/sr/youtubeapi_ddd/.env",
+            "console": "integratedTerminal"
+        }
+    ]
+```
